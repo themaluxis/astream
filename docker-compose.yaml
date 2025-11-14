@@ -1,6 +1,6 @@
 services:
   astream:
-    image: dydhzo/astream:latest
+    image: dyhlio/astream:latest
     container_name: astream
     restart: unless-stopped
     ports:

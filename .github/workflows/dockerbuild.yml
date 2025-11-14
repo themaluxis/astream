@@ -17,10 +17,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Get version from core.py
+    - name: Get version from settings.py
       id: get-version
       run: |
-        VERSION=$(grep '"version":' astream/api/core.py | sed -n 's/.*"version": "\([^"]*\)".*/\1/p')
+        VERSION=$(grep 'ADDON_VERSION = ' astream/config/settings.py | sed -n 's/.*ADDON_VERSION = "\([^"]*\)".*/\1/p')
         echo "Extracted version: $VERSION"
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
@@ -30,7 +30,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          dydhzo/astream
+          dyhlio/astream
           ghcr.io/${{ github.repository }}
         tags: |
           type=raw,value=${{ steps.get-version.outputs.VERSION }},enable={{is_default_branch}}

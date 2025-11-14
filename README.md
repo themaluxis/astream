@@ -1,14 +1,14 @@
-# <p align="center"><img src="https://raw.githubusercontent.com/Dydhzo/astream/refs/heads/main/astream/assets/astream-logo.jpg" width="150"></p>
+# <p align="center"><img src="https://raw.githubusercontent.com/Dyhlio/astream/refs/heads/main/astream/assets/astream-logo.jpg" width="150"></p>
 
 <p align="center">
-  <a href="https://github.com/Dydhzo/astream/releases/latest">
-    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Dydhzo/astream?style=flat-square&logo=github&logoColor=white&labelColor=1C1E26&color=4A5568">
+  <a href="https://github.com/Dyhlio/astream/releases/latest">
+    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Dyhlio/astream?style=flat-square&logo=github&logoColor=white&labelColor=1C1E26&color=4A5568">
   </a>
   <a href="https://www.python.org/">
     <img alt="Python 3.11+" src="https://img.shields.io/badge/python-3.11+-blue?style=flat-square&logo=python&logoColor=white&labelColor=1C1E26&color=4A5568">
   </a>
-  <a href="https://github.com/Dydhzo/astream/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/github/license/Dydhzo/astream?style=flat-square&labelColor=1C1E26&color=4A5568">
+  <a href="https://github.com/Dyhlio/astream/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/Dyhlio/astream?style=flat-square&labelColor=1C1E26&color=4A5568">
   </a>
 </p>
 
@@ -86,7 +86,7 @@
 ```yaml
 services:
   astream:
-    image: dydhzo/astream:latest
+    image: dyhlio/astream:latest
     container_name: astream
     restart: unless-stopped
     ports:
@@ -120,7 +120,7 @@ docker compose logs -f astream
 
 1. **Clonez le dépôt** :
 ```bash
-git clone https://github.com/Dydhzo/astream.git
+git clone https://github.com/Dyhlio/astream.git
 cd astream
 ```
 
@@ -170,7 +170,7 @@ Toutes les variables disponibles dans le fichier `.env` :
 | `DATABASE_URL` | URL PostgreSQL (si DATABASE_TYPE=postgresql) | - | URL |
 | **Configuration Dataset** |
 | `DATASET_ENABLED` | Activer/désactiver le système de dataset | `true` | Booléen |
-| `DATASET_URL` | URL du dataset à télécharger | `https://raw.githubusercontent.com/Dydhzo/astream/main/dataset.json` | URL |
+| `DATASET_URL` | URL du dataset à télécharger | `https://raw.githubusercontent.com/Dyhlio/astream/main/dataset.json` | URL |
 | `AUTO_UPDATE_DATASET` | Mise à jour automatique du dataset | `true` | Booléen |
 | `DATASET_UPDATE_INTERVAL` | Intervalle de vérification des mises à jour | `3600` (1h) | Secondes |
 | **Configuration Cache (secondes)** |
@@ -242,7 +242,7 @@ L'architecture de base de ce projet est inspirée de [Comet](https://github.com/
 ```markdown
 MIT License
 Copyright (c) 2024 Goldy
-Copyright (c) 2025 Dydhzo
+Copyright (c) 2025 Dyhlio
 ```
 
 La logique métier, les scrapers et toutes les fonctionnalités spécifiques à Anime-Sama ont été entièrement développées pour AStream.

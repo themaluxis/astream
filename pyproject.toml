@@ -17,8 +17,9 @@ dependencies = [
     "loguru",
     "orjson",
     "pydantic-settings",
+    "unidecode",
     "uvicorn",
-    "httpx",
+    "curl-cffi",
 ]
 
 [tool.setuptools.packages.find]

@@ -1,11 +1,49 @@
-from typing import Optional
+from typing import Optional, Dict, Any
 from databases import Database
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import sys
 
+# ===========================
+# Version de l'addon
+# ===========================
+ADDON_VERSION = "2.1.0"
 
+# ===========================
+# Domaines exclus
+# ===========================
+DEFAULT_EXCLUDED_DOMAINS = [
+    "s22.anime-sama.fr",
+    "vk.com",
+    "vkvideo.ru",
+    "moly.to",
+    "vidmoly.net"
+]
+
+# ===========================
+# Saisons spéciales
+# ===========================
+SEASON_TYPE_SPECIAL = 0        # Saison 0: Épisodes spéciaux/extras
+SEASON_TYPE_FILM = 990          # Saison 990: Films (valeur haute pour tri en fin de liste)
+SEASON_TYPE_OVA = 991           # Saison 991: OVA/OAV (valeur haute pour tri en fin de liste)
+SPECIAL_SEASON_THRESHOLD = 900  # Seuil: saisons >= 900 sont considérées comme "spéciales" (films/OVA)
+
+# ===========================
+# Langues supportées
+# ===========================
+SUPPORTED_LANGUAGES = ["Tout", "VOSTFR", "VF"]
+VALID_LANGUAGE_CODES = ["VOSTFR", "VF", "VF1", "VF2"]
+LANGUAGES_TO_CHECK = ["vostfr", "vf", "vf1", "vf2"]
+
+# ===========================
+# TMDB
+# ===========================
+TMDB_ANIMATION_GENRE_ID = 16
+
+
+# ===========================
+# Classe AppSettings
+# ===========================
 class AppSettings(BaseSettings):
-    """Paramètres de l'application chargés depuis les variables d'environnement."""
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     ANIMESAMA_URL: Optional[str] = None
@@ -28,27 +66,29 @@ class AppSettings(BaseSettings):
     FINISHED_ANIME_TTL: Optional[int] = 604800
     SCRAPE_LOCK_TTL: Optional[int] = 300
     SCRAPE_WAIT_TIMEOUT: Optional[int] = 30
-    RATE_LIMIT_PER_USER: Optional[float] = 1
     HTTP_TIMEOUT: Optional[int] = 15
     PROXY_URL: Optional[str] = None
-    PROXY_BYPASS_DOMAINS: Optional[str] = ""
     EXCLUDED_DOMAINS: Optional[str] = ""
     CUSTOM_HEADER_HTML: Optional[str] = None
     LOG_LEVEL: Optional[str] = "DEBUG"
     TMDB_API_KEY: Optional[str] = None
     TMDB_TTL: Optional[int] = 604800
 
-# Instance globale des paramètres
+
+# ===========================
+# Instance Singleton
+# ===========================
 settings = AppSettings()
 
-# Vérification obligatoire de l'URL AnimeSama
+# ===========================
+# Validation de la configuration
+# ===========================
 if not settings.ANIMESAMA_URL:
-    print("ERREUR: ANIMESAMA_URL non configurée. Consultez le README : https://github.com/Dydhzo/astream#configuration")
+    sys.stderr.write("ERREUR: ANIMESAMA_URL non configurée. Consultez le README : https://github.com/Dyhlio/astream#configuration\n")
     sys.exit(1)
 
-# Normalisation de l'URL (suppression du slash final)
 if settings.ANIMESAMA_URL.endswith('/'):
-    settings.ANIMESAMA_URL = settings.ANIMESAMA_URL.rstrip('/')  # Supprimer le slash final
+    settings.ANIMESAMA_URL = settings.ANIMESAMA_URL.rstrip('/')
 
 if not settings.ANIMESAMA_URL.startswith(('http://', 'https://')):
     settings.ANIMESAMA_URL = f"https://{settings.ANIMESAMA_URL}"
@@ -65,5 +105,45 @@ web_config = {
     }
 }
 
+
+# ===========================
+# Manifest Stremio de base
+# ===========================
+def get_base_manifest() -> Dict[str, Any]:
+    """
+    Retourne le manifest Stremio de base de l'addon.
+    Ce manifest est ensuite personnalisé dans routes.py selon la config utilisateur.
+    """
+    return {
+        "id": settings.ADDON_ID,
+        "name": settings.ADDON_NAME,
+        "description": f"{settings.ADDON_NAME} – Addon non officiel pour accéder au contenu d'Anime-Sama",
+        "version": ADDON_VERSION,
+        "catalogs": [
+            {
+                "type": "anime",
+                "id": "animesama_catalog",
+                "name": "Anime-Sama",
+                "extra": [
+                    {"name": "search", "isRequired": False},
+                    {"name": "genre", "isRequired": False, "options": []}
+                ]
+            }
+        ],
+        "resources": [
+            "catalog",
+            {"name": "meta", "types": ["anime"], "idPrefixes": ["as"]},
+            {"name": "stream", "types": ["anime"], "idPrefixes": ["as"]}
+        ],
+        "types": ["anime"],
+        "logo": "https://raw.githubusercontent.com/Dyhlio/astream/refs/heads/main/astream/public/astream-logo.jpg",
+        "background": "https://raw.githubusercontent.com/Dyhlio/astream/refs/heads/main/astream/public/astream-background.png",
+        "behaviorHints": {"configurable": True, "configurationRequired": False},
+    }
+
+
+# ===========================
+# Configuration de la base de données
+# ===========================
 database_url = f"sqlite:///{settings.DATABASE_PATH}" if settings.DATABASE_TYPE == "sqlite" else settings.DATABASE_URL
 database = Database(database_url)
