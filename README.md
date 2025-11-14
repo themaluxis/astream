@@ -184,9 +184,7 @@ Toutes les variables disponibles dans le fichier `.env` :
 | `SCRAPE_WAIT_TIMEOUT` | Attente maximale pour un verrou | `30` | Secondes |
 | **Réseau** |
 | `HTTP_TIMEOUT` | Timeout HTTP général | `15` | Secondes |
-| `RATE_LIMIT_PER_USER` | Délai entre requêtes par IP | `1` | Secondes |
 | `PROXY_URL` | Proxy HTTP/HTTPS recommandé | - | URL |
-| `PROXY_BYPASS_DOMAINS` | Domaines qui ne doivent pas utiliser le proxy | - | String |
 | `ANIMESAMA_URL` | URL de base d'anime-sama (Worker Cloudflare) | | URL |
 | **Filtrage** |
 | `EXCLUDED_DOMAIN` | Domaines à exclure des streams | - | String |
@@ -278,6 +276,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 <p align="center">
   Fait avec ❤️ pour la communauté anime française
 </p>
+
 
 
 
