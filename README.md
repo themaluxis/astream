@@ -69,8 +69,8 @@
 |-----------------|------------------|-------------|
 | Saisons normales | `1, 2, 3...` | Numérotation standard |
 | Sous-saisons | `4-2, 4-3...` | Intégrées dans la saison principale (ex: saison4-2 → dans saison 4) |
-| Films | `998` | Tous les films liés à l'anime |
-| Hors-série | `999` | Épisodes hors-série |
+| Films | `990` | Tous les films liés à l'anime |
+| Hors-série | `991` | Épisodes hors-série |
 | Spéciaux/OAV | `0` | OAV et épisodes spéciaux |
 
 ---
@@ -276,6 +276,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 <p align="center">
   Fait avec ❤️ pour la communauté anime française
 </p>
+
 
 
 
