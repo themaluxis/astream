@@ -1,4 +1,4 @@
-# <p align="center"><img src="https://raw.githubusercontent.com/Dyhlio/astream/refs/heads/main/astream/assets/astream-logo.jpg" width="150"></p>
+# <p align="center"><img src="https://raw.githubusercontent.com/Dyhlio/astream/refs/heads/main/astream/public/astream-logo.jpg" width="150"></p>
 
 <p align="center">
   <a href="https://github.com/Dyhlio/astream/releases/latest">
@@ -278,6 +278,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 <p align="center">
   Fait avec ❤️ pour la communauté anime française
 </p>
+
 
 
 
