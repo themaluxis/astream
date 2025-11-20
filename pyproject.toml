@@ -9,6 +9,7 @@ description = "AStream – Addon non officiel pour accéder au contenu d'Anime-S
 requires-python = ">=3.11"
 dependencies = [
     "aiosqlite",
+    "asyncpg",
     "beautifulsoup4",
     "databases",
     "fastapi",
