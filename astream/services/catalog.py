@@ -6,7 +6,7 @@ from astream.scrapers.animesama.client import animesama_api
 from astream.scrapers.animesama.helpers import parse_genres_string
 from astream.services.tmdb.service import tmdb_service
 from astream.services.metadata import metadata_service
-from astream.utils.cache import CacheKeys, CacheManager, cache_stats
+from astream.utils.cache import cache_stats
 from astream.utils.stremio_helpers import StremioMetaBuilder, StremioLinkBuilder
 from astream.config.settings import settings
 
@@ -101,31 +101,14 @@ class CatalogService:
 
     async def extract_unique_genres(self) -> List[str]:
         """
-        Extrait les genres uniques depuis le catalogue Anime-Sama avec cache.
-        Utilise le cache pour optimiser les performances avec DistributedLock.
+        Extrait les genres uniques depuis le catalogue Anime-Sama.
+        Utilise get_homepage_content() qui gère déjà le cache et le locking.
 
         Returns:
             Liste triée des genres uniques
         """
         try:
-            cache_key = CacheKeys.homepage()
-            lock_key = "lock:homepage"
-
-            async def fetch_homepage():
-                logger.debug(f"Cache miss: {cache_key} - Récupération depuis Anime-Sama")
-                anime_data = await self.animesama_api.get_homepage_content()
-                if not anime_data:
-                    return None
-                return {"anime": anime_data, "total": len(anime_data)}
-
-            cached_data = await CacheManager.get_or_fetch(
-                cache_key=cache_key,
-                fetch_func=fetch_homepage,
-                lock_key=lock_key,
-                ttl=settings.DYNAMIC_LIST_TTL
-            )
-
-            anime_data = cached_data.get("anime", []) if cached_data else []
+            anime_data = await self.animesama_api.get_homepage_content()
             genres = self._extract_available_genres(anime_data)
             logger.debug(f"Extraction de {len(genres)} genres uniques depuis le catalogue")
             return genres
