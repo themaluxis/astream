@@ -4,11 +4,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 import sys
 
 # ===========================
-# Version de l'addon
-# ===========================
-ADDON_VERSION = "2.1.1"
-
-# ===========================
 # Domaines exclus
 # ===========================
 DEFAULT_EXCLUDED_DOMAINS = [
@@ -118,7 +113,7 @@ def get_base_manifest() -> Dict[str, Any]:
         "id": settings.ADDON_ID,
         "name": settings.ADDON_NAME,
         "description": f"{settings.ADDON_NAME} – Addon non officiel pour accéder au contenu d'Anime-Sama",
-        "version": ADDON_VERSION,
+        "version": "2.1.2",
         "catalogs": [
             {
                 "type": "anime",
