@@ -26,9 +26,13 @@ class AnimeSamaPlanning(BaseScraper):
             response = await self._internal_request('get', self.planning_url)
             if not response:
                 logger.warning("Impossible de récupérer le planning")
-                return {"anime_slugs": []}
+                return None
 
             anime_slugs = self._extract_anime_slugs_from_planning(response.text)
+
+            if not anime_slugs:
+                logger.log("DATABASE", "Planning vide après extraction - pas de cache")
+                return None
 
             planning_data = {"anime_slugs": list(anime_slugs)}
             logger.log("ANIMESAMA", f"Planning mis à jour: {len(anime_slugs)} anime actifs")
